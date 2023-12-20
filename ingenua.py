@@ -36,7 +36,7 @@ ruta_archivo = seleccionar_y_leer_archivo()
 if ruta_archivo:
     N, cost_matrix = get_input(ruta_archivo)
     if N is not None:
-        print("Número de elementos:", N)
+        print("Número de equipos:", N)
         print("Matriz de costos:", cost_matrix)
 
 count = 0
