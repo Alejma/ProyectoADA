@@ -3,8 +3,22 @@ from tkinter import filedialog
 
 import tkinter as tk
 from tkinter import filedialog
+"""
+@author: Alejandro Marin Hoyos
+@author: Cristian David Zuñiga
+@date: 19-12-2023
+"""
 
 def seleccionar_y_leer_archivo():
+    """
+    Abre una interfaz gráfica para que el usuario seleccione un archivo de texto.
+
+    Args:
+        none
+
+    return:
+        string: Ruta del archivo seleccionado
+    """
     # Inicializar la interfaz gráfica de Tkinter
     root = tk.Tk()
     root.withdraw()  # Ocultar la ventana principal de Tkinter
@@ -16,6 +30,17 @@ def seleccionar_y_leer_archivo():
     return ruta_archivo
 
 def get_input(filename):
+    """
+    Lee y procesa el archivo especificado, extrayendo datos
+    como el número de equipos y la matriz de costos de viaje.
+
+    Args:
+        string: La ruta del archivo a leer.
+
+    return:
+        int: Número de equipos.
+        list(list(int)) :  Matriz de costos de viaje entre equipos.
+    """
     cost = []
     try:
         with open(filename, 'r') as f:
@@ -65,6 +90,19 @@ def check(rs, temp):
 
 
 def backtrack(n, remainning_matches, rs=[], tmp=set()):
+    """
+    Extiende la lógica de backtracking para encontrar la combinación
+    óptima de partidos para todas las semanas de la liga.
+
+    Args:
+        int:  Número total de equipos..
+        list(list()): Lista de partidos pendientes.
+        list: Resultados acumulados (inicialmente vacío).
+        set(): Conjunto temporal para almacenar combinaciones de partidos (inicialmente vacío).
+
+    return:
+        list: Lista de combinaciones óptimas de partidos para todas las semanas.
+    """
     if n == 0:
         temp = sorted(list(tmp), key=lambda x: x[0])
         if check(rs, temp):
@@ -72,10 +110,12 @@ def backtrack(n, remainning_matches, rs=[], tmp=set()):
 
     else:
         for team in Team:
+            # Verifica si el equipo aún no ha jugado en esta iteración
             if played[team] == False and team in remainning_matches[team]:
-                played[team] = True
-                n -= 2
+                played[team] = True # Marca el equipo como jugado
+                n -= 2 # Reduce el contador de partidos por asignar
                 for enemy in Team:
+                    # Continúa si el equipo enemigo es diferente y aún no ha jugado
                     if enemy != team and team in remainning_matches[enemy] and played[enemy] == False:
                         played[enemy] = True
 
@@ -124,6 +164,20 @@ m = 0
 
 
 def find_all(N, k=0, res=[], tmp=[]):
+    """
+    Extiende la lógica de backtracking para encontrar la combinación
+    óptima de partidos para todas las semanas de la liga.
+
+    Args:
+        int: Número total de equipos.
+        int: Contador de semanas (inicialmente 0).
+        list(): Resultados acumulados para todas las semanas (inicialmente vacío).
+        list(): Lista temporal para almacenar combinaciones de partidos (inicialmente vacía).
+
+    return:
+        list(): Lista de combinaciones óptimas de partidos para todas las semanas.
+        float: Costo total mínimo de viaje.
+    """
     global f_opt, solution, f_recent, m
     m += 1
     if k == 2 * N - 2:
@@ -167,6 +221,17 @@ def find_all(N, k=0, res=[], tmp=[]):
 
 
 def build_match_matrix(league, N):
+    """
+    Construye una matriz representando los partidos de la liga, mostrando
+    qué equipo juega en casa y cuál es el visitante en cada partido.
+
+    Args:
+        list(list([][])): Lista de partidos por semana.
+        int: Número total de equipos.
+
+    return:
+        list(list()): Matriz con la información de los partidos.
+    """
     # Inicializar la matriz de enfrentamientos con ceros
     match_matrix = [[0 for _ in range(N)] for _ in range(len(league))]
 
