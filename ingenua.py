@@ -1,14 +1,43 @@
+import tkinter as tk
+from tkinter import filedialog
+
+import tkinter as tk
+from tkinter import filedialog
+
+def seleccionar_y_leer_archivo():
+    # Inicializar la interfaz gráfica de Tkinter
+    root = tk.Tk()
+    root.withdraw()  # Ocultar la ventana principal de Tkinter
+
+    # Abrir el diálogo de selección de archivos y obtener la ruta del archivo
+    ruta_archivo = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+
+    print(ruta_archivo)
+    return ruta_archivo
+
 def get_input(filename):
     cost = []
-    with open(filename) as f:
-        N = [int(x) for x in f.readline().split()][0]
-        for i in range(N):
-            a = [int(x) for x in f.readline().split()]
-            cost.append(a)
-    return N, cost
+    try:
+        with open(filename, 'r') as f:
+            N = [int(x) for x in f.readline().split()][0]
+            for i in range(N):
+                a = [int(x) for x in f.readline().split()]
+                cost.append(a)
+        return N, cost
+    except FileNotFoundError:
+        print("Archivo no encontrado.")
+        return None, None
+    except Exception as e:
+        print(f"Ocurrió un error al leer el archivo: {e}")
+        return None, None
 
-
-N, cost_matrix = get_input('Pruebas/prueba1.txt')
+# Ejemplo de uso
+ruta_archivo = seleccionar_y_leer_archivo()
+if ruta_archivo:
+    N, cost_matrix = get_input(ruta_archivo)
+    if N is not None:
+        print("Número de elementos:", N)
+        print("Matriz de costos:", cost_matrix)
 
 count = 0
 played = [False] * (N)
@@ -153,15 +182,13 @@ def build_match_matrix(league, N):
 
 
 # Después de calcular la liga con 'find_all(N)'
-league, cost = find_all(N)
+#league, cost = find_all(N)
 # print(solution)
-match_matrix = build_match_matrix(league, N)
+#match_matrix = build_match_matrix(league, N)
 
 # Imprimir la matriz de enfrentamientos
 
-for week in match_matrix:
-    print(week)
-print(f'El costo total es de: {cost} \ncon la solución ingenua')
+
 
 
 
