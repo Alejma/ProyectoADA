@@ -1,8 +1,5 @@
 import tkinter as tk
 from tkinter import filedialog
-
-import tkinter as tk
-from tkinter import filedialog
 """
 @author: Alejandro Marin Hoyos
 @author: Cristian David Zuñiga
